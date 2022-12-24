@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "inquirer": "^9.1.4",
+    "progress": "^2.0.3"
+  }
+}
