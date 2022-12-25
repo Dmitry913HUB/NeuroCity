@@ -4,5 +4,5 @@ document.body.onload = function(){
         if(!preloder.classList.contains('done')){
             preloder.classList.add('done');
         }
-    }, 2000)
+    }, 2500)
 }
