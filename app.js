@@ -83,27 +83,52 @@ function numberInString(n, string) {
 // })
 
 //функция посимфольного перхода
-function* loopify(string) {
-    //прохожу по каждому символу строки
-    for (let i = 0; i <= string.length; i++) {
-        //когда доходим до конца строки обнуляим i
-        if(string.length == i){
-            i = 0;
-        }
-        // возобновляю текущий элемент
-        yield string[i];
-    }
-  }
+// function* loopify(string) {
+//     //прохожу по каждому символу строки
+//     for (let i = 0; i <= string.length; i++) {
+//         //когда доходим до конца строки обнуляим i
+//         if(string.length == i){
+//             i = 0;
+//         }
+//         // возобновляю текущий элемент
+//         yield string[i];
+//     }
+//   }
 
-function strlooop(){
-    console.log(strloop.next().value);
+// function strlooop(){
+//     console.log(strloop.next().value);
+// }
+// const strloop = loopify("str");
+
+// strlooop(); 
+// strlooop(); 
+// strlooop(); 
+// strlooop(); 
+// strlooop(); 
+// strlooop(); 
+// strlooop();
+
+var GLOBAL_STR = ""
+var GLOBAL_STR_INDEX = 0
+//функция посимфольного перхода
+function loopify(string) {
+    GLOBAL_STR = string
+    //возврат функции вывода элемента
+    return function () {
+        //вывожу каждый символ строки
+        console.log(GLOBAL_STR[GLOBAL_STR_INDEX])
+        //повышвю индекс
+        GLOBAL_STR_INDEX += 1
+        //если дошли до последнего символа первожу индекс на первый
+        if (GLOBAL_STR_INDEX > GLOBAL_STR.length - 1) {
+            GLOBAL_STR_INDEX = 0
+        }
+    }
 }
 const strloop = loopify("str");
-
-strlooop(); 
-strlooop(); 
-strlooop(); 
-strlooop(); 
-strlooop(); 
-strlooop(); 
-strlooop();
+strloop(); //  ’s’
+strloop(); //  ’t’
+strloop(); //  ’r’
+strloop(); //  ’s’
+strloop(); //  ’t’
+strloop(); //  ’r’
