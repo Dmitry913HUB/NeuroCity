@@ -1,3 +1,4 @@
+// подключение модуля площадей задание 3
 const {triangleSquare} = require('./js/square.js');
 const {circleSquare} = require('./js/square.js');
 // "main": "app.js",
@@ -8,7 +9,7 @@ const readline = require('readline').createInterface({
     output: process.stdout
   })
 
-//функция для форматирования номера телефона
+//функция для форматирования номера телефона задание 1
 function phoneNumber(number){
     //задаю регулярное выраженеи для номера телефона
     const regex = /^\d{10}$/g;
@@ -22,7 +23,7 @@ function phoneNumber(number){
         return `You are not entering a phone number`
     }
 }
-//функция для форматирования номера карты
+//функция для форматирования номера карты задание 5
 function cardNumber(number){
     //задаю регулярное выраженеи для номера карты
     const regex = /^\d{16}$/g;
@@ -43,7 +44,7 @@ function cardNumber(number){
 //     // console.log(cardNumber(number))
 //   })
 
-//функция для поиска чисел в строке
+//функция для поиска чисел в строке задание 2
 function numberInString(n, string) {
     //задаю регулярное выраженеи для чисел
     const regex = /\d+/g;
@@ -82,7 +83,7 @@ function numberInString(n, string) {
 //     })
 // })
 
-//функция посимфольного перхода
+//задание 6 функция посимфольного перхода v1
 // function* loopify(string) {
 //     //прохожу по каждому символу строки
 //     for (let i = 0; i <= string.length; i++) {
@@ -100,6 +101,7 @@ function numberInString(n, string) {
 // }
 // const strloop = loopify("str");
 
+//вызов 6 задания
 // strlooop(); 
 // strlooop(); 
 // strlooop(); 
@@ -108,27 +110,124 @@ function numberInString(n, string) {
 // strlooop(); 
 // strlooop();
 
-var GLOBAL_STR = ""
-var GLOBAL_STR_INDEX = 0
+//задание 6 функция посимфольного перхода v2
+// var GLOBAL_STR = ""
+// var GLOBAL_STR_INDEX = 0
 //функция посимфольного перхода
-function loopify(string) {
-    GLOBAL_STR = string
-    //возврат функции вывода элемента
-    return function () {
-        //вывожу каждый символ строки
-        console.log(GLOBAL_STR[GLOBAL_STR_INDEX])
-        //повышвю индекс
-        GLOBAL_STR_INDEX += 1
-        //если дошли до последнего символа первожу индекс на первый
-        if (GLOBAL_STR_INDEX > GLOBAL_STR.length - 1) {
-            GLOBAL_STR_INDEX = 0
-        }
-    }
+// function loopify(string) {
+//     GLOBAL_STR = string
+//     GLOBAL_STR_INDEX = 0
+//     //возврат функции вывода элемента
+//     return function () {
+//         //вывожу каждый символ строки
+//         console.log(GLOBAL_STR[GLOBAL_STR_INDEX])
+//         //повышвю индекс
+//         GLOBAL_STR_INDEX += 1
+//         //если дошли до последнего символа первожу индекс на первый
+//         if (GLOBAL_STR_INDEX > GLOBAL_STR.length - 1) {
+//             GLOBAL_STR_INDEX = 0
+//         }
+//     }
+// }
+
+//вызов 6 задания
+// const strloop = loopify("str");
+// strloop(); //  ’s’
+// strloop(); //  ’t’
+// strloop(); //  ’r’
+// strloop(); //  ’s’
+// // strloop(); //  ’t’
+// // strloop(); //  ’r’
+// const strloopt = loopify("test");
+// strloopt();
+// strloopt();
+// strloopt();
+// strloopt();
+// strloopt();
+
+//задание 6 функция посимфольного перхода v3 основная
+const loopify = (string) => {
+    var i = 0;
+    const print = () => {
+        console.log(string[i]);
+        i = i + 1;
+        if (string.length === i) i = 0;
+    };   
+    return print;                      
+  };
+  
+  const a = loopify("hello"); 
+  const b = loopify("world");
+//вызов 6 задания
+//   a();
+//   b();
+//   a();
+//   b();
+//   a();
+//   b();
+//   a();
+//   b();
+//   a();
+//   b();
+//   a();
+//   b();
+//   a();
+//   b();
+
+
+// задание 4 ассинхронная загрузка файлов
+//   const urlArr = ["https://png.pngtree.com/png-vector/20201229/ourmid/pngtree-an-adult-tabby-cat-png-image_2664939.jpg","https://go64.ru/upload/quickly/cat-2143332_1280.jpg",
+//   "https://cdnn11.img.sputnik.by/img/102768/82/1027688237_175:0:904:801_1920x0_80_0_0_ec162d86740126d12cfa9750eb48cbca.jpg"];
+
+const urlArr = ["https://filesamples.com/samples/image/bmp/sample_5184%C3%973456.bmp","https://filesamples.com/samples/image/bmp/sample_1920%C3%971280.bmp","https://filesamples.com/samples/image/bmp/sample_1280%C3%97853.bmp"];
+let dests = "";
+const http = require("https");
+const fs = require("fs");
+
+function download(url, dest) {
+    return new Promise((resolve, reject) => {
+        const file = fs.createWriteStream(dest, { flags: "wx" });
+
+        const request = http.get(url, response => {
+            if (response.statusCode === 200) {
+                response.pipe(file);
+                console.log(url);
+            } else {
+                file.close();
+                fs.unlink(dest, () => {}); // Delete temp file
+                reject(`Server responded with ${response.statusCode}: ${response.statusMessage}`);
+            }
+        });
+
+        request.on("error", err => {
+            file.close();
+            fs.unlink(dest, () => {}); // Delete temp file
+            reject(err.message);
+        });
+
+        file.on("finish", () => {
+            resolve();
+        });
+
+        file.on("error", err => {
+            file.close();
+
+            if (err.code === "EEXIST") {
+                reject("File already exists");
+            } else {
+                fs.unlink(dest, () => {}); // Delete temp file
+                reject(err.message);
+            }
+        });
+    });
 }
-const strloop = loopify("str");
-strloop(); //  ’s’
-strloop(); //  ’t’
-strloop(); //  ’r’
-strloop(); //  ’s’
-strloop(); //  ’t’
-strloop(); //  ’r’
+
+async function downloadAsFile(arr){
+    for(i=0;i<arr.length;i++){
+        dests = "file"+i+".bmp";
+        await download(arr[i], dests);
+    }            
+}
+
+//вызов загрузки фалов задание 4
+// downloadAsFile(urlArr)
